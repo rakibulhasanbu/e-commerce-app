@@ -12,7 +12,6 @@ const PrivetLayout = ({
   const pathname = usePathname();
   const router = useRouter();
   const token = useAppSelector(useCurrentToken);
-  console.log("🚀 ~ accessToken:", token);
 
   if (!token) {
     const redirectTo = `/auth/sign-in?from=${encodeURIComponent(pathname)}`;
