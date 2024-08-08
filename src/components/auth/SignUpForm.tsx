@@ -10,8 +10,7 @@ import { Form } from "../ui/form";
 import { Checkbox } from "../ui/checkbox";
 import { useRegisterMutation } from "@/redux/features/auth/authApi";
 import { toast } from "react-toastify";
-import { verifyToken } from "@/lib/verifyToken";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import {
   selectCurrentUser,
@@ -26,7 +25,7 @@ export const formSchema = z.object({
   password: z.string().min(8),
 });
 
-const SignUpForm = () => {
+const SignUpForm = ({ from }: { from: string }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,13 +35,10 @@ const SignUpForm = () => {
     },
   });
 
-  const searchParams = useSearchParams();
-  const from = searchParams.get("from");
   const router = useRouter();
   const dispatch = useAppDispatch();
   const token = useAppSelector(useCurrentToken);
   const user = useAppSelector(selectCurrentUser);
-  console.log("🚀 ~ SignUpForm ~ user:", user, token);
 
   const [registerUser] = useRegisterMutation();
 

@@ -11,7 +11,7 @@ import GoogleIcon from "./GoogleIcon";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { toast } from "react-toastify";
 import { verifyToken } from "@/lib/verifyToken";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import {
   selectCurrentUser,
@@ -25,7 +25,7 @@ export const formSchema = z.object({
   password: z.string().min(8),
 });
 
-const SignInForm = () => {
+const SignInForm = ({ from }: { from: string }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -33,8 +33,7 @@ const SignInForm = () => {
       password: "",
     },
   });
-  const searchParams = useSearchParams();
-  const from = searchParams.get("from");
+
   const router = useRouter();
   const token = useAppSelector(useCurrentToken);
   const user = useAppSelector(selectCurrentUser);
